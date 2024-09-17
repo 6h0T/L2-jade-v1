@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Separator } from "@/components/ui/separator"
-import { ChevronRight, File, Folder, FolderOpen, Users, Target, Trophy, Sword, Castle, UserCircle2 } from 'lucide-react'
+import { ChevronRight, File, Folder, FolderOpen, Users, Target, Trophy, Sword, Castle, UserCircle2, Menu, X } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { useInView } from 'react-intersection-observer'
 import Image from "next/image"
@@ -170,17 +170,17 @@ function WhyPlaySection() {
   ]
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center server-section">
-      <div className="container mx-auto py-32 px-4 relative z-10">
-        <h2 className="text-4xl font-bold mb-16 text-center">Why Should We Play Lineage 2?</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className="relative py-16 md:py-32 flex items-center justify-center server-section">
+      <div className="container mx-auto px-4 relative z-10">
+        <h2 className="text-3xl md:text-4xl font-bold mb-8 md:mb-16 text-center">¿Por qué deberíamos jugar Lineage 2?</h2>
+        <div className="flex flex-col gap-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8">
           {reasons.map((reason, index) => (
             <motion.div
               key={index}
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: index * 0.2, duration: 0.5 }}
-              className="relative flex flex-col items-center text-center p-6 rounded-xl backdrop-blur-md bg-[#1a3f35]/50 h-full overflow-hidden"
+              className="relative flex flex-col items-center text-center p-4 md:p-6 rounded-xl backdrop-blur-md bg-[#1a3f35]/50 overflow-hidden"
             >
               <BorderBeam
                 className="pointer-events-none"
@@ -193,10 +193,10 @@ function WhyPlaySection() {
                 delay={index * 0.5}
               />
               <div className="text-[#4ade80] mb-4">{reason.icon}</div>
-              <h3 className="text-2xl font-bold mb-4">{reason.title}</h3>
-              <p className="mb-6">{reason.description}</p>
-              <div className="w-full h-px bg-[#4ade80] my-6"></div>
-              <ul className="text-left w-full">
+              <h3 className="text-xl md:text-2xl font-bold mb-2 md:mb-4">{reason.title}</h3>
+              <p className="mb-4 md:mb-6 text-sm md:text-base">{reason.description}</p>
+              <div className="w-full h-px bg-[#4ade80] my-4 md:my-6"></div>
+              <ul className="text-left w-full text-sm md:text-base">
                 {reason.details.map((detail, idx) => (
                   <li key={idx} className="flex items-center mb-2">
                     <div className="mr-2 text-[#4ade80]">
@@ -219,6 +219,7 @@ function WhyPlaySection() {
 
 export function LineageLandingPageComponent() {
   const [accordionValue, setAccordionValue] = useState<string | undefined>(undefined)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleItemToggle = (value: string) => {
     setAccordionValue(value)
@@ -365,7 +366,7 @@ export function LineageLandingPageComponent() {
                   className="h-[52.8px]"
                 />
               </motion.div>
-              <nav className="flex items-center space-x-6">
+              <nav className="hidden md:flex items-center space-x-6">
                 <NavItem href="#home">HOME</NavItem>
                 <NavItem href="#download">DOWNLOAD</NavItem>
                 <NavItem href="#about">ABOUT</NavItem>
@@ -378,9 +379,25 @@ export function LineageLandingPageComponent() {
                   </GlassButton>
                 </motion.div>
               </nav>
+              <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
             </div>
           </div>
         </div>
+        {isMenuOpen && (
+          <div className="md:hidden bg-[#1a3f35]/90 backdrop-blur-md">
+            <div className="container mx-auto px-4 py-2">
+              <NavItem href="#home">HOME</NavItem>
+              <NavItem href="#download">DOWNLOAD</NavItem>
+              <NavItem href="#about">ABOUT</NavItem>
+              <NavItem href="#support">SUPPORT</NavItem>
+              <GlassButton className="w-full mt-2" onClick={() => window.open('https://l2jade.com.ar/panel/registro', '_blank', 'noopener,noreferrer')}>
+                ACCOUNT PANEL / REGISTER
+              </GlassButton>
+            </div>
+          </div>
+        )}
       </header>
 
       <main>
